@@ -1,0 +1,5 @@
+.DS_Store
+results/
+.venv/
+__init__.py
+__pycache__

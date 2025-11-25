@@ -23,11 +23,11 @@ The goal is to estimate option prices using simulated stock-price paths and demo
 
 ## Project Structure
 ```
-├── models/ # price path simulator (GBM)
+├── gbm.py # GBM price path simulator 
 ├── payoffs/ # payoff types (vanilla, arithmetic asian, geometric asian) 
 ├── estimators/ # computational techniques (plain MC, MC + variance reductions)
-├── utils/ # helper functions
-├── benchmark/ # script to produce plots/tables
+├── demo_script.py # script to produce plots/tables
+├── logs/ # output .csv files
 ├── README.md # project description and instructions 
 ├── requirements.txt # Python dependencies
 └── .gitignore # ignore rules (includes .venv, results/, pycache)
