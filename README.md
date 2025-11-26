@@ -7,7 +7,7 @@ This project implements a Monte Carlo simulation engine for pricing Asian arithm
 ## Features
 
 - Geometric Brownian Motion (GBM) price path simulator class
-- Script for plain Monte Carlo (MC) pricing of European vanilla calls (for the purpose of validating GBM and MC simulations by comparing to Black-Scholes closed form)
+- Script for plain Monte Carlo (MC) pricing of European calls (for the purpose of validating GBM and MC simulations by comparing to Black-Scholes closed form)
 - Benchmark script simulating plain MC against variance-reduction methods for Asian arithmetic-average calls and generating comparison outputs
 - Writeup detailing performance results and analysis
 
@@ -19,8 +19,8 @@ This project implements a Monte Carlo simulation engine for pricing Asian arithm
 ├── gbm.py # GBM price path simulator 
 ├── payoffs.py # functions for each payoff type (vanilla, arithmetic asian, geometric asian) 
 ├── estimators.py # functions for estimation techniques (plain MC, antithetic variates, control variates)
-├── plain_vanilla.py # plain MC + vanilla call validation script
-├── asian_arith_pricing.py # plain MC vs variance-reduction comparison script
+├── euro_call_plain_mc.py # plain MC + European calls validation script
+├── asian_arith_pricing.py # plain MC vs variance-reduction comparison script for Asian arithmetic average calls
 ├── plots/ # generated plots/figures
 ├── logs/ # output .csv files (gitignored)
 ├── README.md # project description and instructions 
