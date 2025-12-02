@@ -50,7 +50,7 @@ Just by inspection, it's clear that the control variate technique drastically re
 
 ![Confidence interval widths](plots/asian_errors.png)
 
-We see that the antithetic variate was able to modestly reduce the spread of our intervals, while the control variate drastically reduced it. To obtain a more explicit quantification of how much the variance was reduced, I plotted the average of the ratios of confidence interval widths $(\text{CI}_{\text{anti}}/\text{CI}_{\text{plain}})^2$ and $(\text{CI}_{\text{control}}/\text{CI}_{\text{plain}})^2$ for each iteration. 
+We see that the antithetic variate was able to modestly reduce the spread of our intervals, while the control variate drastically reduced it. To obtain a more explicit quantification of how much the variance was reduced, I recorded the ratios of confidence interval widths for antithetic vs. plain and control vs. plain, then plotted the cumulative averages. 
 
 ![Variance reduction factors](plots/asian_vr.png)
 
