@@ -7,19 +7,16 @@ def plain_mc(
     payoff_func, K, #payoff type and strike price
     rng: np.random.Generator = np.random.default_rng() #optional rng to control GBM path
 ):
-    discounted_payoffs = np.empty(shape = num_paths)
     gbm = GBM(num_steps, num_paths, S_0, T, r, sigma, rng)
     data = gbm.get_data()
-    for i in range(num_paths):
-        payoff = payoff_func(data[i], K)
-        discounted_payoffs[i] = np.exp(-r * T) * payoff 
+
+    discounted_payoffs = np.exp(-r * T) * payoff_func(data, K) 
 
     mean = discounted_payoffs.mean()
     std = discounted_payoffs.std(ddof=1)
     error = 1.96 * std / np.sqrt(num_paths)
-    ci = (mean - error, mean + error)
 
-    return mean, ci
+    return mean, error
 
 
 def anti_mc(
@@ -28,23 +25,16 @@ def anti_mc(
     payoff_func, K, #payoff type and strike price
     rng: np.random.Generator = np.random.default_rng() #optional rng to control GBM path
 ):
-    discounted_payoffs = np.empty(shape = num_paths)
     gbm = GBM(num_steps, num_paths, S_0, T, r, sigma, rng, anti=True)
     data, anti_data = gbm.get_data()
 
-    for i in range(num_paths):
-        payoff = payoff_func(data[i], K)
-        anti_payoff = payoff_func(anti_data[i], K)
-
-        avg_payoff = 0.5 * (payoff + anti_payoff)
-        discounted_payoffs[i] = np.exp(-r * T) * avg_payoff
+    discounted_payoffs = np.exp(-r * T) * 0.5 * (payoff_func(data, K) + payoff_func(anti_data, K))
 
     mean = discounted_payoffs.mean()
     std = discounted_payoffs.std(ddof=1)
     error = 1.96 * std / np.sqrt(num_paths)
-    ci = (mean - error, mean + error)
 
-    return mean, ci
+    return mean, error
 
 def control_mc(
     S_0, r, sigma, T, #hyperparameters
@@ -53,19 +43,11 @@ def control_mc(
     control_payoff_func, control_price, #payoff function and known price to control against
     rng: np.random.Generator = np.random.default_rng() #optional rng to control GBM path 
 ):
-    discounted_X = np.empty(shape = num_paths)
-    discounted_Y = np.empty(shape = num_paths)
     gbm = GBM(num_steps, num_paths, S_0, T, r, sigma, rng)
     data = gbm.get_data()
 
-    for i in range(num_paths):
-        path = data[i]
-        X_i = payoff_func(path, K)
-        Y_i = control_payoff_func(path, K)
-
-        discounted_X[i] = np.exp(-r * T) * X_i 
-        discounted_Y[i] = np.exp(-r * T) * Y_i
-
+    discounted_X = np.exp(-r * T) * payoff_func(data, K)
+    discounted_Y = np.exp(-r * T) * control_payoff_func(data, K)
     
 
     cov = np.cov(discounted_X, discounted_Y, ddof=1)
@@ -79,8 +61,7 @@ def control_mc(
     mean = Z.mean()
     std = Z.std(ddof = 1)
     error = 1.96 * std / np.sqrt(num_paths)
-    ci = (mean - error, mean + error)
 
-    return mean, ci
+    return mean, error
 
 
